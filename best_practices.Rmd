@@ -1,0 +1,146 @@
+---
+title: "Draft ADF&G Biometrics Best Practices"
+author: "Ben Williams"
+date: '2017-06-10'
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    theme: flatly
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This document is to explicitly list coding best practices for biometricians and quantitative biologists within ADF&G Commercial Fisheries, with the hopes that a common framework will facilitate collaboration and code review. Much of what is in here originates from Grolemund and Wickham's excellent R for Data Science "Book" http://r4ds.had.co.nz/. This is all predicated upon the assumption that your data are human and machine readable!
+
+## Naming conventions
+
+**File names**
+
+`use_lower_case_and_underscore`  
+`DontUseMixedCases`   
+`periods.are.meh`  
+`dont_use.periods_and.underscore`  
+Don't use a name that only you can understand  
+`X10_20.16_T_AND_Y410.csv`  
+
+**Object names**  
+
+Rename all columns on import of a dataset.
+
+Keep names short, but descriptive.  
+`No spaces`  
+`No_Upper_And_Upper_Case`  
+`NO_ALL_CAPS`
+
+`catch` works better than `c` and you can search for and change `catch` (plus `c` is a function command...).
+
+Know your data types, if an object is a character or factor use a capital letter, if it is numeric (double, or integer) use a lower case name.
+
+For example you have the integer `year` in your data but you some figures based on the factor `Year` in the same data. If you keep the two seperate you have the ability to easily plot and run various analyses without getting errors plus:
+
+`lm(catch~year)`  
+is quite a bit different than  
+`lm(catch~Year)`
+
+Instead of writing `catch_kg` make a note at the beginning of the script that catch is in kg unless otherwise stated then use `catch`. This is just good practice in general. 
+
+
+**Function names**  
+
+I tend to use periods in function names to seperate them from global items, often with an *f* at the beginning.  
+`f.brief.function.description` I tend toward using something like `f.ricker` or `ricker.fun` or `ricker_fun` to name a Ricker spawner-recruit function.  
+
+## Projects  
+
+* Use them!  
+* Don't save your work environment - you should rerun your code each time to make sure you haven't broken anything. If the analyses are lengthy or complex then save the output - which can then be sourced.   
+* **Don't use absolute paths** `set_wd()` in your scripts - if data are confidential then write a note in the script of how to call the data (e.g., OceanAK), or where it is stored on a ADF&G server, or whom to contact. Why does this matter? Your `set_wd()` is not the same as mine. Relative paths only - hence the reason for projects. 
+
+### Project structure  
+
+A project should have a number of folders, I tend toward the following:  
+
+* code - all scripts   
+* data - raw data - this gets treated (and can be set as) a read only file
+* figs - this is .png etc., output
+* text - if writing a document it is easier to keep it seperate
+
+sometimes there may be inclusion of a few other folders, such as:
+* output - any cleaned data   
+* literature  
+* functions  
+
+This structure works well for devloping R scripts, writing in markdown and can work well when writing with Sweave.
+
+## Scripts  
+
+The general structure of a script should have:
+
+* What does it do
+* Who made it and how can they be contacted
+* Further notes on data access, units, etc. 
+* list all libraries used in the analysis - have libraries you no longer use? **delete them** it will reduce conflicts. 
+* typically I bring in all data at the start and clean it. If the files are huge or many there may be a code chunk(s) deeper into the script to deal with it. 
+* fold your code! `# load ----` or `# data ----` create breaks and make it easy to navigate within your scripts and can make lengthy analyses much easier to follow. Code "chunks" in Rmarkdown can be folded and you can name it ` ```{r data} ` the same is available in Sweave as ` <<data>>= `
+
+At a minimum a script structure should look like:
+
+`# notes ----`  
+`# load ----`  
+`# data ----`  
+`# analysis ----`  
+
+## Rmarkdown  
+What is markdown?
+
+* a very lightweight writing format originally created for conversion to HTML (a "markup" language - that is a pain to write) 
+* it is plain text (no proprietary software - looking at you MS Word) so can be tracked via git  
+* what can it be converted to?  
+	pdf, word, html
+	
+* How does that work? via a program called Pandoc (a "universal" document converter) - don't worry it is included with RStudio.
+	
+
+When to use it
+
+-Whenever you want to rapidly communicate annotated code (informal report) 
+-Initial report writing  
+-To keep notes for yourself  
+
+Structure  
+* YAML - 'YAML Ain't Markup Language' a human (and computer) readable data format. This is the "frontmatter" of your report that tells markdown what type of output you would like to have.  
+* there are a slew of options http://rmarkdown.rstudio.com/html_document_format.html - I've generally found that keeping it rather basic e.g., 
+
+```{r, eval=F}
+---
+title: 'This is a title'
+author: 'Me'
+date: "2017_06_10"
+output:pdf_document
+fontsize: 11pt
+csl: canjfas.csl
+bibliography: bibby.bib
+---
+```
+
+This has a title, author and date that will be at the head of the document. I've told it to generate a pdf and have included a bibliography (.bibtex format) for references and am using the Canadian Journal or Fisheries and Aquatic Sciences .csl (citation style language) that format the references. Here is a good site for downloading .csl styles https://github.com/citation-style-language/styles
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
