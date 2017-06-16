@@ -4,6 +4,7 @@ author: "Ben Williams"
 date: '2017-06-10'
 output:
   pdf_document:
+    keep_tex: yes
     toc: yes
   html_document:
     theme: flatly
@@ -12,6 +13,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
 ```
 
 This document is to explicitly list coding best practices for biometricians and quantitative biologists within ADF&G Commercial Fisheries, with the hopes that a common framework will facilitate collaboration and code review. Much of what is in here originates from Grolemund and Wickham's excellent R for Data Science "Book" http://r4ds.had.co.nz/. This is all predicated upon the assumption that your data are human and machine readable!
@@ -20,11 +22,18 @@ This document is to explicitly list coding best practices for biometricians and 
 
 **File names**
 
-`use_lower_case_and_underscore`  
+Do use:  
+`lower_case_and_underscore`  
+
+If you are changing files or versions often then adding a date can be beneficial.
+`data_2017_01_20`
+
+Do not use:  
 `DontUseMixedCases`   
 `periods.are.meh`  
 `dont_use.periods_and.underscore`  
-Don't use a name that only you can understand  
+
+Definitely don't use a name that only you can understand  
 `X10_20.16_T_AND_Y410.csv`  
 
 **Object names**  
@@ -47,16 +56,18 @@ For example you have the integer `year` in your data but you some figures based 
 Instead of writing `catch_kg` make a note at the beginning of the script that catch is in kg unless otherwise stated then use `catch`. This is just good practice in general. 
 
 **Dates**  
-Believe it or not there is an internation date/time standard (ISO 8601) the format is:  
+Believe it or not there is an international date/time standard (ISO 8601) the format is:  
 yyyy-mm-dd  
-*Use it!* Dates regularly have confounding errors - clean them at teh beginning of a script and make all formats consistent (bevcasue what people send you will not be).
 
-
+*Use it!* Dates regularly have confounding errors - clean them at the beginning of a script and make all formats consistent (becasue what people send you will not be).
 
 **Function names**  
 
 I tend to use periods in function names to seperate them from global items, often with an *f* at the beginning.  
-`f.brief.function.description` I tend toward using something like `f.ricker` or `ricker.fun` or `ricker_fun` to name a Ricker spawner-recruit function. a function names *r*, *rick*, or *sr* doesn't tell you what it does - be at least slightly descriptive. 
+
+`f.brief.function.description` 
+
+Something like `f.ricker` or `ricker.fun` or `ricker_fun` to name a Ricker spawner-recruit function. Functions nameed *r*, *rick*, or *sr* doesn't tell you what it does - be at least slightly descriptive. 
 
 ## Projects  
 
@@ -85,12 +96,13 @@ This structure works well for devloping R scripts, writing in markdown and can w
 
 The general structure of a script should have:
 
-* What does it do
+* A decription of what it does
 * Who made it and how can they be contacted
 * Further notes on data access, units, etc. 
 * list all libraries used in the analysis - have libraries you no longer use? **delete them** it will reduce conflicts. 
 * typically I bring in all data at the start and clean it. If the files are huge or many there may be a code chunk(s) deeper into the script to deal with it. 
-* fold your code! `# load ----` or `# data ----` create breaks and make it easy to navigate within your scripts and can make lengthy analyses much easier to follow. Code "chunks" in Rmarkdown can be folded and you can name it ` ```{r data} ` the same is available in Sweave as ` <<data>>= `
+* fold your code!   
+Use `# load ----` or `# data ----` to create breaks and make it easy to navigate within your scripts and make lengthy analyses much easier to follow. Code "chunks" in Rmarkdown can be folded and you can name it ` ```{r data} ` the same is available in Sweave as ` <<data>>= `
 
 At a minimum a script structure should look like:
 
@@ -135,7 +147,9 @@ bibliography: bibby.bib
 This has a title, author and date that will be at the head of the document. I've told it to generate a pdf and have included a bibliography (.bibtex format) for references and am using the Canadian Journal or Fisheries and Aquatic Sciences .csl (citation style language) that format the references. Here is a good site for downloading .csl styles https://github.com/citation-style-language/styles
 
 
-
+```{r}
+sessionInfo()
+```
 
 
 
