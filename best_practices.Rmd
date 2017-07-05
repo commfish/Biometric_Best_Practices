@@ -1,7 +1,7 @@
 ---
 title: "Draft ADF&G Biometrics Best Practices"
 author: "Ben Williams"
-date: '2017-06-10'
+date: '2017-07-05'
 output:
   pdf_document:
     keep_tex: yes
@@ -16,40 +16,48 @@ knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 ```
 
-This document is to explicitly list coding best practices for biometricians and quantitative biologists within ADF&G Commercial Fisheries, with the hopes that a common framework will facilitate collaboration and code review. Much of what is in here originates from Grolemund and Wickham's excellent R for Data Science "Book" http://r4ds.had.co.nz/. This is all predicated upon the assumption that your data are human and machine readable!
+
+This document is to explicitly list coding best practices for biometricians and quantitative biologists within ADF&G Commercial Fisheries, with the hopes that a common framework will facilitate collaboration and code review. Much of what is in here originates from Grolemund and Wickham's excellent R for Data Science "Book" http://r4ds.had.co.nz/. This is all predicated upon the assumption that your data are human and machine readable! 
 
 ## Naming conventions
 
+Generally speaking it is best to use Google's R style guide, if in doubt default to these: https://google.github.io/styleguide/Rguide.xml
+
+
 **File names**
-
 Do use:  
-`lower_case_and_underscore`  
+`lower_case_and_underscore.R`  
 
-If you are changing files or versions often then adding a date can be beneficial.
+If you are changing files or versions often then adding a date can be beneficial.  
 `data_2017_01_20`
 
 Do not use:  
-`DontUseMixedCases`   
-`periods.are.meh`  
-`dont_use.periods_and.underscore`  
+`DontUseMixedCases.R`   
+`periods.are.meh.but.ok.csv`  
+`dont_use.periods_and.underscore.R`  
 
 Definitely don't use a name that only you can understand  
 `X10_20.16_T_AND_Y410.csv`  
 
 **Object names**  
 
-Rename all columns on import of a dataset.
+Rename all columns on import of a dataset. Do this at the beginning of a script to make sure that files can be joined without naming conflicts.
 
 Keep names short, but descriptive.  
+
+Use:  
+`year` or `Year`  
+`cpue` or `std_cpue`
+
 `No spaces`  
 `No_Upper_And_Upper_Case`  
 `NO_ALL_CAPS`
 
-`catch` works better than `c` and you can search for and change `catch` (plus `c` is a function command...).
+`catch` works better than `c` and you can search for and change `catch` (plus `c` is a function command...)
 
-Know your data types, if an object is a character or factor use a capital letter, if it is numeric (double, or integer) use a lower case name.
+Know your data types, if an object is a character or factor use a capital letter, if it is numeric (double, or integer) use a lower case name. Define data types at teh beginning of a script.
 
-For example you have the integer `year` in your data but you some figures based on the factor `Year` in the same data. If you keep the two seperate you have the ability to easily plot and run various analyses without getting errors plus:
+For example you have the integer `year` in your data but you create figures based on the factor `Year`. If you keep the two seperate you have the ability to easily plot and run various analyses without getting errors plus:
 
 `lm(catch~year)` is quite a bit different than `lm(catch~Year)`
 
@@ -59,7 +67,7 @@ Instead of writing `catch_kg` make a note at the beginning of the script that ca
 Believe it or not there is an international date/time standard (ISO 8601) the format is:  
 yyyy-mm-dd  
 
-*Use it!* Dates regularly have confounding errors - clean them at the beginning of a script and make all formats consistent (becasue what people send you will not be).
+*Use it!* Dates regularly have confounding errors - clean them at the beginning of a script and make all formats consistent (because what people send you will not be).
 
 **Function names**  
 
@@ -67,17 +75,27 @@ I tend to use periods in function names to seperate them from global items, ofte
 
 `f.brief.function.description` 
 
-Something like `f.ricker` or `ricker.fun` or `ricker_fun` to name a Ricker spawner-recruit function. Functions nameed *r*, *rick*, or *sr* doesn't tell you what it does - be at least slightly descriptive. 
+Something like `f.ricker` or `ricker.fun` or `ricker_fun` to name a Ricker spawner-recruit function. Functions named *r*, *rick*, or *sr* don't tell you what it does - be at least slightly descriptive. 
 
+**Assignments**  
+Use `<-`, not =  
+Use TRUE and FALSE, not T or F (the latter can be reassigned, the former cannot).
+
+**Spacing**
+
+Place spaces around all binary operators (=, +, -, `<-`, etc.). Do not place a space before a comma, but always place one after a comma. Place a space before left parenthesis, except in a function call.
+
+# Organization  
 ## Projects  
 
 *Use them!
 *Don't save your work environment - you should rerun your code each time to make sure you haven't broken anything. If the analyses are lengthy or complex then save the output - which can then be sourced.
-***Don't use absolute paths** `set_wd()` in your scripts - if data are confidential then write a note in the script of how to call the data (e.g., OceanAK), or where it is stored on a ADF&G server, or whom to contact. Why does this matter? Your `set_wd()` is not the same as mine. Relative paths only - hence the reason for projects. 
+***Don't use absolute paths** no `set_wd()` in your scripts - if data are confidential then write a note in the script of how to call the data (e.g., OceanAK), or where it is stored on a ADF&G server, or whom to contact. Why does this matter? Your `set_wd()` is not the same as mine. Relative paths only - hence the reason for projects. 
 
 ### Project structure  
 
-A project should have a number of folders, I tend toward the following:  
+If everyone uses a similar structure for projeacts and scripts we will be able to read and understand each other's work faster and more easily.  
+A project should have a number of folders:  
 
 * code - all scripts
 * data - raw data - this gets treated (and can be set as) a read only file
@@ -97,19 +115,31 @@ This structure works well for devloping R scripts, writing in markdown and can w
 The general structure of a script should have:
 
 * A decription of what it does
-* Who made it and how can they be contacted
+* Who made it and their contact e-mail
 * Further notes on data access, units, etc. 
 * list all libraries used in the analysis - have libraries you no longer use? **delete them** it will reduce conflicts. 
-* typically I bring in all data at the start and clean it. If the files are huge or many there may be a code chunk(s) deeper into the script to deal with it. 
+* typically I bring in all data at the start and clean it. If the files are huge, or numerous, there may be a code chunk(s) deeper into the script to deal with it. 
 * fold your code!   
-Use `# load ----` or `# data ----` to create breaks and make it easy to navigate within your scripts and make lengthy analyses much easier to follow. Code "chunks" in Rmarkdown can be folded and you can name it ` ```{r data} ` the same is available in Sweave as ` <<data>>= `
+Use `# load ----` or `# data ----` to create breaks and make it easy to navigate within your scripts and make lengthy analyses much easier to follow. 
 
 At a minimum a script structure should look like:
 
-`# notes ----`  
+`# notes ----`   
+
+`# author`  
+`# contact`  
+`# date (or last changed date)`  
+ 
 `# load ----`  
+
+`library()`
+`source('code/functions.R')` 
 `# data ----`  
+
+`data <- read_csv('data/data_file.csv')`
+ 
 `# analysis ----`  
+
 
 ## Rmarkdown  
 What is markdown?
