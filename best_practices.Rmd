@@ -6,9 +6,6 @@ output:
   pdf_document:
     keep_tex: yes
     toc: yes
-  html_document:
-    theme: flatly
-    toc: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -17,7 +14,7 @@ library(dplyr)
 ```
 
 
-This document is to explicitly list coding best practices for biometricians and quantitative biologists within ADF&G Commercial Fisheries, with the hopes that a common framework will facilitate collaboration and code review. Much of what is in here originates from Grolemund and Wickham's excellent R for Data Science "Book" http://r4ds.had.co.nz/. This is all predicated upon the assumption that your data are human and machine readable! 
+This document is to explicitly list coding best practices in *R* for biometricians and quantitative biologists within ADF&G Commercial Fisheries, with the hopes that a common framework will facilitate collaboration and code review. Much of what is in here originates from Grolemund and Wickham's excellent R for Data Science "Book" http://r4ds.had.co.nz/. This is all predicated upon the assumption that your data are human and machine readable! 
 
 ## Naming conventions
 
@@ -29,7 +26,7 @@ Do use:
 `lower_case_and_underscore.R`  
 
 If you are changing files or versions often then adding a date can be beneficial.  
-`data_2017_01_20`
+`data_2017_01_20.csv`
 
 Do not use:  
 `DontUseMixedCases.R`   
@@ -47,7 +44,7 @@ Keep names short, but descriptive.
 
 Use:  
 `year` or `Year`  
-`cpue` or `std_cpue`
+`cpue` or `std.cpue`
 
 `No spaces`  
 `No_Upper_And_Upper_Case`  
@@ -55,13 +52,13 @@ Use:
 
 `catch` works better than `c` and you can search for and change `catch` (plus `c` is a function command...)
 
-Know your data types, if an object is a character or factor use a capital letter, if it is numeric (double, or integer) use a lower case name. Define data types at teh beginning of a script.
+Know your data types, if an object is a character or factor use a capital letter, if it is numeric (double, or integer) use a lower case name. Define data types at the beginning of a script.
 
 For example you have the integer `year` in your data but you create figures based on the factor `Year`. If you keep the two seperate you have the ability to easily plot and run various analyses without getting errors plus:
 
 `lm(catch~year)` is quite a bit different than `lm(catch~Year)`
 
-Instead of writing `catch_kg` make a note at the beginning of the script that catch is in kg unless otherwise stated then use `catch`. This is just good practice in general. 
+Instead of writing `catch.kg` make a note at the beginning of the script that catch is in kg unless otherwise stated then use `catch`. This is just good practice in general. 
 
 **Dates**  
 Believe it or not there is an international date/time standard (ISO 8601) the format is:  
@@ -90,7 +87,7 @@ Place spaces around all binary operators (=, +, -, `<-`, etc.). Do not place a s
 
 *Use them!
 *Don't save your work environment - you should rerun your code each time to make sure you haven't broken anything. If the analyses are lengthy or complex then save the output - which can then be sourced.
-***Don't use absolute paths** no `set_wd()` in your scripts - if data are confidential then write a note in the script of how to call the data (e.g., OceanAK), or where it is stored on a ADF&G server, or whom to contact. Why does this matter? Your `set_wd()` is not the same as mine. Relative paths only - hence the reason for projects. 
+***Don't use absolute paths** no `set_wd()` or `attach` in your scripts - if data are confidential then write a note in the script of how to call the data (e.g., OceanAK), or where it is stored on a ADF&G server, or whom to contact. Why does this matter? Your `set_wd()` is not the same as mine. Relative paths only - hence the reason for projects. 
 
 ### Project structure  
 
@@ -140,8 +137,40 @@ At a minimum a script structure should look like:
  
 `# analysis ----`  
 
+For example:
+
+```{r, error=FALSE, warning=FALSE, message=FALSE}
+# notes ----
+# This is a demonstration of how scripts should be setup 
+# Author: Ben Williams
+# contact: ben.williams@alaska.gov
+# Last edited: 2017-7-7
+
+# load ----
+library(tidyverse)
+theme_set(theme_bw(base_size=12)+ 
+  theme(panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank()))
+
+# data ----
+# typycally this would be read_csv("data/iris.csv")
+# but the iris dataset is built in
+
+# change names
+names(iris) <- c('sepal.length', 'sepal.width', 'petal.length', 'petal.width', 'Species') 
+glimpse(iris)
+
+# eda ----
+
+ggplot(iris, aes(sepal.length, sepal.width, color=Species)) + geom_point() +
+	ylab('Sepal Width') + xlab('Sepal Length')
+```
+
 
 ## Rmarkdown  
+
+*Note: This section is under development*
+
 What is markdown?
 
 * a very lightweight writing format originally created for conversion to HTML (a "markup" language - that is a pain to write) 
