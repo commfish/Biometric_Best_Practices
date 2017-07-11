@@ -193,7 +193,7 @@ Structure
 
 ```{r, eval=F}
 ---
-title: 'This is a'
+title: 'This is a title'
 author: 'Me'
 date: "2017_06_10"
 output:pdf_document
