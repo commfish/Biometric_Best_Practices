@@ -7,7 +7,6 @@ output:
     keep_tex: yes
     toc: yes
 ---
-A a line
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
