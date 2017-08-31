@@ -91,7 +91,7 @@ Place spaces around all binary operators (=, +, -, `<-`, etc.). Do not place a s
 
 ### Project structure  
 
-If everyone uses a similar structure for projeacts and scripts we will be able to read and understand each other's work faster and more easily.  
+If everyone uses a similar structure for projects and scripts we will be able to read and understand each other's work faster and more easily.  
 A project should have a number of folders:  
 
 * code - all scripts
@@ -105,7 +105,7 @@ sometimes there may be inclusion of a few other folders, such as:
 * literature
 * functions 
 
-This structure works well for devloping R scripts, writing in markdown and can work well when writing with Sweave.
+This structure works well for developing R scripts, writing in markdown and can work well when writing with Sweave.
 
 ## Scripts  
 
@@ -146,15 +146,15 @@ For example:
 # contact: ben.williams@alaska.gov
 # Last edited: 2017-7-7
 
-# load ----
-library(tidyverse)
+# load ----  
+library(tidyverse)  
 theme_set(theme_bw(base_size=12)+ 
   theme(panel.grid.major = element_blank(),
-  panel.grid.minor = element_blank()))
+  panel.grid.minor = element_blank()))  
 
-# data ----
-# typycally this would be read_csv("data/iris.csv")
-# but the iris dataset is built in
+# data ----  
+# typycally this would be read_csv("data/iris.csv")  
+# but the iris dataset is built in  
 
 # change names
 names(iris) <- c('sepal.length', 'sepal.width', 'petal.length', 'petal.width', 'Species') 
