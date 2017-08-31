@@ -129,11 +129,11 @@ At a minimum a script structure should look like:
  
 `# load ----`  
 
-`library()`
-`source('code/functions.R')` 
-`# data ----`  
+`library()`    
+`source('code/functions.R')`    
 
-`data <- read_csv('data/data_file.csv')`
+`# data ----`  
+`data <- read_csv('data/data_file.csv')`    
  
 `# analysis ----`  
 
