@@ -36,6 +36,12 @@ Do not use:
 Definitely don't use a name that only you can understand  
 `X10_20.16_T_AND_Y410.csv`  
 
+Be consistent within and across projects. For example, all data file names contain the same information:
+`datasource_briefdescription_firstyear_lastyear.csv`
+Examples:
+`survey_bio_1988_2016.csv` or
+`fishery_cpue_1998_2016.csv`
+
 **Object names**  
 
 Rename all columns on import of a dataset. Do this at the beginning of a script to make sure that files can be joined without naming conflicts.
@@ -94,7 +100,7 @@ Place spaces around all binary operators (=, +, -, `<-`, etc.). Do not place a s
 If everyone uses a similar structure for projects and scripts we will be able to read and understand each other's work faster and more easily.  
 A project should have a number of folders:  
 
-* code - all scripts
+* code - all scripts (use separate folders for r-code, admb, etc.)
 * data - raw data - this gets treated (and can be set as) a read only file
 * figs - this is .png etc., output
 * text - if writing a document it is easier to keep it seperate
@@ -103,7 +109,6 @@ sometimes there may be inclusion of a few other folders, such as:
 
 * output - any cleaned data
 * literature
-* functions 
 
 This structure works well for developing R scripts, writing in markdown and can work well when writing with Sweave.
 
