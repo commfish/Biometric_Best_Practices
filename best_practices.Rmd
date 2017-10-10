@@ -158,7 +158,7 @@ theme_set(theme_bw(base_size=12)+
   panel.grid.minor = element_blank()))  
 
 # data ----  
-# typycally this would be read_csv("data/iris.csv")  
+# typically this would be read_csv("data/iris.csv")  
 # but the iris dataset is built in  
 
 # change names
