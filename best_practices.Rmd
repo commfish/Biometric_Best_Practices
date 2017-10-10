@@ -36,10 +36,10 @@ Do not use:
 Definitely don't use a name that only you can understand  
 `X10_20.16_T_AND_Y410.csv`  
 
-Be consistent within and across projects. For example, all data file names contain the same information:
-`datasource_briefdescription_firstyear_lastyear.csv`
-Examples:
-`survey_bio_1988_2016.csv` or
+Be consistent within and across projects. For example, all data file names contain the same information:  
+`datasource_briefdescription_firstyear_lastyear.csv`  
+Examples:  
+`survey_bio_1988_2016.csv` or  
 `fishery_cpue_1998_2016.csv`
 
 **Object names**  
