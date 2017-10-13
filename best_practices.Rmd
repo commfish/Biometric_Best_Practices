@@ -84,6 +84,8 @@ Something like `f.ricker` or `ricker.fun` or `ricker_fun` to name a Ricker spawn
 Use `<-`, not =  
 Use TRUE and FALSE, not T or F (the latter can be reassigned, the former cannot).
 
+The `<-` assignment shortcut is `Alt-`, the "pipe" operator shortcut is `Cntrl+Shift+M` more shortcuts in Rstudio can be found by pressing `Alt+Shift+K`.
+
 **Spacing**
 
 Place spaces around all binary operators (=, +, -, `<-`, etc.). Do not place a space before a comma, but always place one after a comma. Place a space before left parenthesis, except in a function call.
