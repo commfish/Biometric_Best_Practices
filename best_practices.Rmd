@@ -88,7 +88,7 @@ The `<-` assignment shortcut is `Alt-`, the "pipe" operator shortcut is `Cntrl+S
 
 **Spacing**
 
-Place spaces around all binary operators (=, +, -, `<-`, etc.). Do not place a space before a comma, but always place one after a comma. Place a space before left parenthesis, except in a function call.
+Place spaces around all binary operators (=, +, -, `<-`, etc.). Do not place a space before a comma, but always place one after a comma. Place a space before left parenthesis, except in a function call. There should be a hard return after each pip `%>%`.
 
 # Organization  
 ## Projects  
@@ -141,6 +141,9 @@ At a minimum a script structure should look like:
 
 `# data ----`  
 `data <- read_csv('data/data_file.csv')`    
+
+`data %>%
+   mutate(Year = factor(year)) -> data`
  
 `# analysis ----`  
 
