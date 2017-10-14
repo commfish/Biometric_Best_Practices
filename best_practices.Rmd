@@ -143,7 +143,7 @@ At a minimum a script structure should look like:
 `data <- read_csv('data/data_file.csv')`    
 
 `data %>%`    
-   `mutate(Year = factor(year)) -> data`
+    `mutate(Year = factor(year)) -> data`
  
 `# analysis ----`  
 
