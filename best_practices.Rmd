@@ -93,9 +93,9 @@ Place spaces around all binary operators (=, +, -, `<-`, etc.). Do not place a s
 # Organization  
 ## Projects  
 
-*Use them!
-*Don't save your work environment - you should rerun your code each time to make sure you haven't broken anything. If the analyses are lengthy or complex then save the output - which can then be sourced.
-***Don't use absolute paths** no `set_wd()` or `attach` in your scripts - if data are confidential then write a note in the script of how to call the data (e.g., OceanAK), or where it is stored on a ADF&G server, or whom to contact. Why does this matter? Your `set_wd()` is not the same as mine. Relative paths only - hence the reason for projects. 
+*Use them!*  
+Don't save your work environment - you should rerun your code each time to make sure you haven't broken anything. If the analyses are lengthy or complex then save the output - which can then be sourced.
+**Don't use absolute paths** no `set_wd()` or `attach` in your scripts - if data are confidential then write a note in the script of how to call the data (e.g., OceanAK), or where it is stored on a ADF&G server, or whom to contact. Why does this matter? Your `set_wd()` is not the same as mine. Relative paths only - hence the reason for projects. **Only load packages that you are actually using.**
 
 ### Project structure  
 
