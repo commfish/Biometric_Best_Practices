@@ -3,4 +3,6 @@
 .RData
 .Ruserdata
 *.Rproj
-
+*.log
+*.aux
+*.gz
