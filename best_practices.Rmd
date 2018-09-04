@@ -26,7 +26,10 @@ Do use:
 `lower_case_and_underscore.R`  
 
 If you are changing files or versions often then adding a date can be beneficial.  
-`data_2017_01_20.csv`
+`data_2017_01_20.csv`  
+or add a version  
+`data_2017_01_20_v2.csv`
+
 
 Do not use:  
 `DontUseMixedCases.R`   
@@ -64,7 +67,7 @@ For example you have the integer `year` in your data but you create figures base
 
 `lm(catch~year)` is quite a bit different than `lm(catch~Year)`
 
-Instead of writing `catch.kg` make a note at the beginning of the script that catch is in kg unless otherwise stated then use `catch`. This is just good practice in general. 
+Instead of writing `catch_kg` make a note at the beginning of the script that catch is in kg unless otherwise stated then use `catch`. Making notes in your code files is just good practice in general. 
 
 **Dates**  
 Believe it or not there is an international date/time standard (ISO 8601) the format is:  
@@ -74,17 +77,17 @@ yyyy-mm-dd
 
 **Function names**  
 
-I tend to use periods in function names to seperate them from global items, often with an *f* at the beginning.  
+I often start function names with an *f* at the beginning, to clearly identify them as a function.  
 
-`f.brief.function.description` 
+`f_brief_function_description` 
 
-Something like `f.ricker` or `ricker.fun` or `ricker_fun` to name a Ricker spawner-recruit function. Functions named *r*, *rick*, or *sr* don't tell you what it does - be at least slightly descriptive. 
+Something like `f_ricker` or `ricker_fun` to name a Ricker spawner-recruit function. Functions named *r*, *rick*, or *sr* don't tell you what it does - be at least slightly descriptive. 
 
 **Assignments**  
 Use `<-`, not =  
 Use TRUE and FALSE, not T or F (the latter can be reassigned, the former cannot).
 
-The `<-` assignment shortcut is `Alt-`, the "pipe" operator shortcut is `Cntrl+Shift+M` more shortcuts in Rstudio can be found by pressing `Alt+Shift+K`.
+The `<-` assignment shortcut is `Alt-`, the "pipe" `%>%` operator shortcut is `Cntrl+Shift+M` more shortcuts in Rstudio can be found by pressing `Alt+Shift+K`.
 
 **Spacing**
 
@@ -94,7 +97,7 @@ Place spaces around all binary operators (=, +, -, `<-`, etc.). Do not place a s
 ## Projects  
 
 *Use them!*  
-Don't save your work environment - you should rerun your code each time to make sure you haven't broken anything. If the analyses are lengthy or complex then save the output - which can then be sourced.
+Don't save your work environment - you should rerun your code each time to make sure you haven't broken anything. If the analyses are lengthy or complex then save the output - which can then be sourced. In Rstudio you can go to "Tools > Global Options> Save workspace to .Rdata on exit" change it to "Never" and your workspace will not be saved.  
 **Don't use absolute paths** no `set_wd()` or `attach` in your scripts - if data are confidential then write a note in the script of how to call the data (e.g., OceanAK), or where it is stored on a ADF&G server, or whom to contact. Why does this matter? Your `set_wd()` is not the same as mine. Relative paths only - hence the reason for projects. **Only load packages that you are actually using.**
 
 ### Project structure  
@@ -103,7 +106,7 @@ If everyone uses a similar structure for projects and scripts we will be able to
 A project should have a number of folders:  
 
 * code - all scripts (use separate folders for r-code, admb, etc.)
-* data - raw data - this gets treated (and can be set as) a read only file
+* data - raw data - this gets treated as a read only file, never adjust the contents of this file - everything is done via code
 * figs - this is .png etc., output
 * text - if writing a document it is easier to keep it seperate
 
@@ -160,22 +163,23 @@ For example:
 
 # load ----  
 library(tidyverse)  
-theme_set(theme_bw(base_size=12) +   
-  theme(panel.grid.major = element_blank(),  
-  panel.grid.minor = element_blank()))  
+library(FNGr)
+theme_set(theme_sleek())
 
 # data ----  
 # typically this would be read_csv("data/iris.csv")  
 # but the iris dataset is built in  
 
 # change names
-names(iris) <- c('sepal.length', 'sepal.width', 'petal.length', 'petal.width', 'Species') 
+names(iris) <- c('sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'Species') 
 glimpse(iris)
 
 # eda ----
 
-ggplot(iris, aes(sepal.length, sepal.width, color=Species)) + geom_point() +
-	ylab('Sepal Width') + xlab('Sepal Length')
+ggplot(iris, aes(sepal_length, sepal_width, color=Species)) + 
+  geom_point() +
+	ylab('Sepal Width') + 
+  xlab('Sepal Length')
 ```
 
 
@@ -219,7 +223,7 @@ This has a title, author and date that will be at the head of the document. I've
 
 
 ```{r}
-sessionInfo()
+sessionInfo(c("ggplot2", "FNGr"))
 ```
 
 
