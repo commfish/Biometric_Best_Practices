@@ -1,0 +1,326 @@
+---
+title: "git"
+author: "Ben Williams"
+date: "May 11, 2018"
+output: 
+  html_document: 
+    toc: yes
+---
+\section{Introduction}
+
+Git takes a snapshot of all your tracked files during each commit.\\
+Every commit has a unique identifier (40 character SHA-1 hash) that can be referenced.\\
+
+There are three primary states in git:
+
+ - *Committed* - file is stored
+ - *Modified* - file is changed but not committed
+ - *Staged* - file has been marked for inclusion in next commit
+
+
+Git can (and should) be used to keep track of your own projects. 
+GitHub can be used to collaborate or share code.
+
+# Command line
+Love thy command line!!! Everything that is done in a git client (e.g., RStudio, GitKraken, Sourcetree) can be done in the command line. In some cases the client does not permit the full complement of available options. Open the git bash and check the configuration
+
+```
+$ git config --global --list
+
+user.name=Ben Williams
+user.email=ben.williams@alaska.gov
+```
+
+The e-mail that you use should be the same e-mail that you used to setup GitHub.
+If your results do not look similar/appropriate you can change these using the following commands:
+```
+git config --global user.name 'your name'
+git config --global user.email 'your email'
+
+git config --global --list
+```
+
+# Basics
+
+Create a folder, can do this "by hand" or by using the command line. 
+
+```
+ $ mkdir git_train
+```
+
+Navigate to the folder
+
+```
+$ cd git_train
+```
+
+Check the Git status of this empty folder
+
+```
+$ git status
+fatal: Not a git repository (or any of the parent directories): .git
+```
+
+This tells you that git is not tracking this folder. 
+The first thing we need to do is start to track the folder. This is done by "initializing" the folder.
+```
+$ git init
+```
+
+Then check the status again
+```
+$ git status
+On branch master
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+```
+
+Success! you are now tracking this folder.
+
+Add a file (data.csv) to the folder, then check the status again.
+```
+$ touch data.csv
+```
+
+```
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+(use "git add <file>..." to include in what will be committed)
+
+data.csv
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+A few items of note:
+
+  - You can readily see your file working location
+  - The branch that you are on (default = master)
+  - There is a file that is not being tracked
+  - You are being prompted on how to track this file
+
+
+We can add this file so that Git will track it once we make a commit.
+
+There are a load of options for git add...  
+
+\url{https://git-scm.com/docs/git-add}
+
+Generally there are three options that will typically be used
+```
+$ git add data.csv # a specific file
+$ git add *.csv # all csv files
+$ git add . # all files (be wary of this)
+```
+
+Check the status
+```
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+(use "git rm --cached <file>..." to unstage)
+
+new file:   data.csv
+
+```
+
+Note that git tells you how to "unstage" this add, if you decide last minute that you don't want to track a file you can remove it now.
+
+Now it is time to commit
+```
+$ git commit -m "initial data commit"
+```
+
+Check the status
+```
+$ git status
+On branch master
+nothing to commit, working tree clean
+```
+
+Modify the data.csv file  
+Check the status  
+Add the file to commit  
+Commit any changes  
+
+Repeat a few times, provide different commit statements
+
+# Ignore
+
+How to ignore files or folders
+```
+touch .gitignore
+```
+
+You can add individual items, item types, or folders to the ignore list
+
+```
+private_data.csv
+*.pdf
+private_folder
+```
+
+
+# Navigation
+
+Learn to move around in git
+```
+git log 
+```
+
+```
+git log --oneline
+```
+
+Checkout an earlier commit
+```
+git checkout <SHA-1>
+```
+
+Notice that the data in data.csv changes when you checkout a different version
+
+```
+git checkout <SHA-1>
+```
+
+
+# Branching
+Create a branch based upon the master branch, call it `dev` (development)
+```
+git checkout -b dev
+```
+
+`git checkout` is used to switch between branches or commits. The `-b` flag tells it to {*create a new branch*}.
+By default the new branch is based upon whatever branch you were on when making the new branch.
+
+You can choose to base the new branch on a different branch using:
+```
+git checkout -b new_branch other_branch
+```
+
+Branches are how you can work in collaboration with others or try offshoots of your own code. It is easiest (best?) to work only on particular section of a branch individually to avoid merge conflicts.
+
+Add a file named `code.R` to the dev branch
+```
+touch code.R
+```
+
+In the file write `2 + 2`  
+add (stage) the file  
+commit it  
+
+switch to the master branch `git checkout master` and redo everything but the code should be `4 + 4`
+
+Perform a merge of the two branches ( first check that you are indeed on the master branch)
+```
+git status
+git merge dev
+```
+
+This will tell you that there is a conflict in the \code{code.R} file
+```
+$ git merge dev
+Auto-merging code.R
+CONFLICT (add/add): Merge conflict in code.R
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+`git status` provides a bit more information
+
+```
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+(use "git push" to publish your local commits)
+
+You have unmerged paths.
+(fix conflicts and run "git commit")
+(use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+(use "git add <file>..." to mark resolution)
+
+both added:      code.R
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+If you open the `code.R` file you will see the issue is contained within conflict markers `<<<<<<<`. 
+The `=====` divides the base branch changes from the other branch.
+
+```
+<<<<<<< HEAD
+4 + 4
+=======
+2 + 2
+>>>>>>> dev
+```
+
+Now decide if you want to keep the first branch, the second branch or a melding of the two. Delete the conflict markers, make the changes, then commit the changes.
+Let's change the code to `4 + 2`
+
+```
+$ git add code.R
+$ git commit -m "resolve merge conflict"
+$ git status
+```
+
+# Remote
+
+Setup a repository on GitHub called `git\_train`
+ then let git know that you have a repository 
+
+```
+$ git remote add origin https://github.com/your_name/git_train.git
+```
+
+Push your master branch to the repository.
+
+```
+$ git push -u origin master
+Counting objects: 22, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (16/16), done.
+Writing objects: 100% (22/22), 2.07 KiB | 424.00 KiB/s, done.
+Total 22 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), done.
+To https://github.com/ben-williams/git_train.git
+* [new branch]      master -> master
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+```
+
+Note that this only pushes the master branch, if you want to push the dev branch you can do that separately.
+```
+$ git checkout dev
+$ git push -u origin dev
+Everything up-to-date
+Branch 'dev' set up to track remote branch 'dev' from 'origin'.
+```
+
+As you make changes to the branch you only need to use `git push`
+
+If you are working with someone else via github then `git pull`
+
+Check if there are changes to the files
+```
+$ git remote update
+```
+
+To see all the commits on all branches whose name ends in "master" (both local and remote)
+```
+git show-branch *master
+```
+
+There are changes so "pull" them to your computer
+```
+git pull
+```
