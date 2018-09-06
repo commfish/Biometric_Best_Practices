@@ -1,0 +1,47 @@
+---
+title: "Template for Short Biometric Analyses - use a meaningful title/subtitle"
+author: "Author name/email"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+output: html_document
+---
+
+## Recipient(s)
+
+
+```{r setup, include=FALSE}
+
+```
+
+# Background
+
+Motivation and objective for the analysis. 
+
+```{r data, include=FALSE}
+
+# Bring in the data here. Provide a description of the data and where it came from.
+
+```
+
+# Methods
+
+# Results
+
+```{r analysis, echo=FALSE}
+
+# Model or analysis code here. echo=FALSE will print out results.
+
+```
+
+# Recommendation/Discussion
+
+What is the recommended outcome from this analysis? What are the caveats? What further steps could be taken to improve this analysis?
+
+# R Session Info
+
+```{r sess_info, echo=FALSE}
+sessionInfo()
+```
+
+# Appendix
+
+Are there any additional files (data, code, etc.) that this analysis is dependent on?
