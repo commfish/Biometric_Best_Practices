@@ -1,7 +1,7 @@
 ---
-title: "Draft ADF&G Biometrics Best Practices"
-author: "Ben Williams"
-date: '2017-07-05'
+title: "ADF&G Biometrics Best Practices--DRAFT"
+author: "Ben Williams and others"
+date: 'June 1, 2022'
 output:
   pdf_document:
     keep_tex: yes
@@ -61,13 +61,13 @@ Use:
 
 `catch` works better than `c` and you can search for and change `catch` (plus `c` is a function command...)
 
-Know your data types, if an object is a character or factor use a capital letter, if it is numeric (double, or integer) use a lower case name. Define data types at the beginning of a script.
+Know your data types. If an object is a character or factor use a capital letter, if it is numeric (double, or integer) use a lower case name. Define data types at the beginning of a script.
 
 For example you have the integer `year` in your data but you create figures based on the factor `Year`. If you keep the two seperate you have the ability to easily plot and run various analyses without getting errors plus:
 
 `lm(catch~year)` is quite a bit different than `lm(catch~Year)`
 
-Instead of writing `catch_kg` make a note at the beginning of the script that catch is in kg unless otherwise stated then use `catch`. Making notes in your code files is just good practice in general. 
+Instead of writing `catch_kg` make a note at the beginning of the script that catch is in kg unless otherwise stated then use `catch`. Making notes in your code files is just good practice in general. It allows others to more easily follow your code. 
 
 **Dates**  
 Believe it or not there is an international date/time standard (ISO 8601) the format is:  
@@ -77,11 +77,11 @@ yyyy-mm-dd
 
 **Function names**  
 
-I often start function names with an *f* at the beginning, to clearly identify them as a function.  
+It may be helpful to start function names with an *f* at the beginning, to clearly identify them as a function.  
 
 `f_brief_function_description` 
 
-Something like `f_ricker` or `ricker_fun` to name a Ricker spawner-recruit function. Functions named *r*, *rick*, or *sr* don't tell you what it does - be at least slightly descriptive. 
+Something like `f_ricker` or `ricker_fun` to name a Ricker spawner-recruit function. Functions named *r*, *rick*, or *sr* don't tell you what the function does - be at least slightly descriptive. 
 
 **Assignments**  
 Use `<-`, not =  
@@ -97,8 +97,8 @@ Place spaces around all binary operators (=, +, -, `<-`, etc.). Do not place a s
 ## Projects  
 
 *Use them!*  
-Don't save your work environment - you should rerun your code each time to make sure you haven't broken anything. If the analyses are lengthy or complex then save the output - which can then be sourced. In Rstudio you can go to "Tools > Global Options> Save workspace to .Rdata on exit" change it to "Never" and your workspace will not be saved.  
-**Don't use absolute paths** no `set_wd()` or `attach` in your scripts - if data are confidential then write a note in the script of how to call the data (e.g., OceanAK), or where it is stored on a ADF&G server, or whom to contact. Why does this matter? Your `set_wd()` is not the same as mine. Relative paths only - hence the reason for projects. **Only load packages that you are actually using.**
+Don't save your work environment - you should rerun your code each time to make sure you haven't broken anything. If the analyses are lengthy or complex, then save the output - which can then be sourced. In Rstudio you can go to "Tools > Global Options> Save workspace to .Rdata on exit" change it to "Never" and your workspace will not be saved.  
+**Don't use absolute paths** no `set_wd()` or `attach` in your scripts - if data are confidential then write a note in the script of how to call the data (e.g., OceanAK), or where it is stored on a ADF&G server, or whom to contact. Why does this matter? Your `set_wd()` is not the same as mine. Use relative paths only - hence the reason for projects. **Only load packages that you are actually using.**
 
 ### Project structure  
 
@@ -108,7 +108,7 @@ A project should have a number of folders:
 * code - all scripts (use separate folders for r-code, admb, etc.)
 * data - raw data - this gets treated as a read only file, never adjust the contents of this file - everything is done via code
 * figs - this is .png etc., output
-* text - if writing a document it is easier to keep it seperate
+* text - if writing a document it is easier to keep it separate
 
 sometimes there may be inclusion of a few other folders, such as:
 
@@ -117,15 +117,53 @@ sometimes there may be inclusion of a few other folders, such as:
 
 This structure works well for developing R scripts, writing in markdown and can work well when writing with Sweave.
 
+Discussions have arisen as to whether multiple year assessments are better set up within each folder or on the outside of each folder. There are caveats to both.
+
+Example of assessment organization inside the code folder:  
+
+* code  
+
+    * 2022_forecast  
+    
+    * 2023_forecast  
+    
+* data  
+
+    * 2022_forecast  
+    
+    * 2023_forecast
+    
+Example of assessment organization outside the code folder:  
+
+* 2022_forecast    
+  
+  * code    
+ 
+  * data    
+  
+  * figs    
+  
+  * text    
+
+* 2023_forecast   
+  
+  * code    
+ 
+  * data   
+  
+  * figs    
+  
+  * text    
+    
 ## Scripts  
 
 The general structure of a script should have:
 
-* A decription of what it does
-* Who made it and their contact e-mail
-* Further notes on data access, units, etc. 
+* description of what it does
+* who created it and their contact e-mail
+* further notes on data access, units, etc. 
 * list all libraries used in the analysis - have libraries you no longer use? **delete them** it will reduce conflicts. 
-* typically I bring in all data at the start and clean it. If the files are huge, or numerous, there may be a code chunk(s) deeper into the script to deal with it. 
+* Typically it is best to bring in all data at the start and clean it. If the files are huge, or numerous, there may be a code chunk(s) deeper into the script to deal with it. 
 * fold your code!   
 Use `# load ----` or `# data ----` to create breaks and make it easy to navigate within your scripts and make lengthy analyses much easier to follow. 
 
@@ -163,8 +201,11 @@ For example:
 
 # load ----  
 library(tidyverse)  
-library(FNGr)
-theme_set(theme_sleek())
+devtools::install_github("commfish/fngr")
+library(fngr)
+library(extrafont)
+theme_set(theme_report(base_size = 10))
+
 
 # data ----  
 # typically this would be read_csv("data/iris.csv")  
