@@ -1,6 +1,6 @@
 ---
 title: "ADF&G Biometrics Best Practices--DRAFT"
-author: "Ben Williams and others"
+author: "Ben Williams and others..."
 date: 'June 1, 2022'
 output:
   pdf_document:
